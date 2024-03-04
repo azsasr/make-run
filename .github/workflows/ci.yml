@@ -63,26 +63,6 @@ jobs:
     if: ${{ needs.check.outputs.check_rv == '1' || needs.check.outputs.check_rv_beta == '1' || needs.check.outputs.check_rex == '1' || needs.check.outputs.check_rve == '1' || needs.check.outputs.check_rve67 == '1' || needs.check.outputs.check_rve5 == '1'}}
     runs-on: ubuntu-latest
     steps:
-      - name: Check Previous Workflow Run Status
-        id: check-previous-run
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          script: |
-            const { data: runs } = await github.rest.actions.listWorkflowRuns({
-              owner: "${{ secrets.owner_repo }}",
-              repo: "${{ secrets.repo }}",
-              workflow_id: "ci.yml",
-              status: "completed",
-              per_page: 1
-            });
-            if (runs.total_count === 0) {
-              return "no-previous-run";
-            } else if (runs.workflow_runs[0].conclusion === 'failure') {
-              return "previous-failed";
-            } else {
-              return "previous-success";
-            }
       - name: Trigger the Workflow
         if: steps.check-previous-run.outputs.result == 'previous-success'
         uses: actions/github-script@v7
