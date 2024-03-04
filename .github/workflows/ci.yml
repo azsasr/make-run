@@ -1,0 +1,97 @@
+name: Trigger Remote Workflow
+permissions: write-all
+env:
+  repository: '${{ secrets.owner_repo }}/${{ secrets.repo }}'
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Check github connection
+        id: check-gh
+        run: bash connection.sh
+      - name: Check new patch ReVanced
+        id: check-rv
+        if: steps.check-gh.outputs.internet_error == '0'
+        run: bash ci.sh ReVanced/revanced-patches latest youtube-revanced.apk
+      - name: Check new patch ReVanced Beta
+        id: check-rv-beta
+        if: steps.check-gh.outputs.internet_error == '0'
+        run: bash ci.sh ReVanced/revanced-patches prerelease youtube-beta-revanced.apk
+      - name: Check new patch ReX
+        id: check-rex
+        if: steps.check-gh.outputs.internet_error == '0'
+        run: bash ci.sh YT-Advanced/ReX-patches latest youtube-ReX.apk
+      - name: Check new patch Revanced Extended
+        id: check-rve
+        if: steps.check-gh.outputs.internet_error == '0'
+        run: bash ci.sh inotia00/revanced-patches latest youtube-revanced-extended.apk
+      - name: Check new patch Revanced For Android 6 & 7
+        id: check-rve67
+        if: steps.check-gh.outputs.internet_error == '0'
+        run: bash ci.sh kitadai31/revanced-patches-android6-7 latest youtube-revanced-extended-android-6-7.apk
+      - name: Check new patch Revanced For Android 5
+        id: check-rve5
+        if: steps.check-gh.outputs.internet_error == '0'
+        run: bash ci.sh d4n3436/revanced-patches-android5 latest youtube-revanced-extended-android-5.apk
+      - name: Keep workflow run
+        if: steps.check-gh.outputs.internet_error == '0'
+        uses: gautamkrishnar/keepalive-workflow@v1
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 0
+          keep_minimum_runs: 5
+    outputs:
+      check_rv: ${{ steps.check-rv.outputs.new_patch }}
+      check_rv_beta: ${{ steps.check-rv-beta.outputs.new_patch }}
+      check_rex: ${{ steps.check-rex.outputs.new_patch }}
+      check_rve: ${{ steps.check-rve.outputs.new_patch }}
+      check_rve67: ${{ steps.check-rve67.outputs.new_patch }}
+      check_rve5: ${{ steps.check-rve5.outputs.new_patch }}
+
+  trigger:
+    name: Trigger workflow
+    needs: check
+    if: ${{ needs.check.outputs.check_rv == '1' || needs.check.outputs.check_rv_beta == '1' || needs.check.outputs.check_rex == '1' || needs.check.outputs.check_rve == '1' || needs.check.outputs.check_rve67 == '1' || needs.check.outputs.check_rve5 == '1'}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Previous Workflow Run Status
+        id: check-previous-run
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const { data: runs } = await github.rest.actions.listWorkflowRuns({
+              owner: "${{ secrets.owner_repo }}",
+              repo: "${{ secrets.repo }}",
+              workflow_id: "ci.yml",
+              status: "completed",
+              per_page: 1
+            });
+            if (runs.total_count === 0) {
+              return "no-previous-run";
+            } else if (runs.workflow_runs[0].conclusion === 'failure') {
+              return "previous-failed";
+            } else {
+              return "previous-success";
+            }
+      - name: Trigger the Workflow
+        if: steps.check-previous-run.outputs.result == 'previous-success'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: "${{ secrets.owner_repo }}",
+              repo: "${{ secrets.repo }}",
+              workflow_id: "ci.yml",
+              ref: "main"
+            })
