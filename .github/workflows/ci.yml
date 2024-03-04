@@ -65,7 +65,7 @@ jobs:
     steps:
       - name: Check Previous Workflow Run Status
         id: check-previous-run
-        uses: actions/github-script@v5
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           script: |
