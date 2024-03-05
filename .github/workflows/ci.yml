@@ -107,14 +107,14 @@ jobs:
             const completedRuns = await github.rest.actions.listWorkflowRuns({
               owner: ownerRepo,
               repo: repoName,
-              workflow_id: 'ci.yml',
+              workflow_id: 'manual-patch.yml',
               status: 'completed',
               per_page: 1
             });
             const runningRuns = await github.rest.actions.listWorkflowRuns({
               owner: ownerRepo,
               repo: repoName,
-              workflow_id: 'manual-patch.yml ',
+              workflow_id: 'manual-patch.yml',
               status: 'in_progress',
               per_page: 1
             });
