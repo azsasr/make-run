@@ -91,10 +91,10 @@ jobs:
             const hasCompletedRunFailed = completedRuns.data.workflow_runs.length > 0 && completedRuns.data.workflow_runs[0].conclusion !== 'success';
             const hasRunningJobs = runningRuns.data.workflow_runs.length > 0;
             if(hasCompletedRunFailed || hasRunningJobs) {
-              core.setOutput('run_next_workflow', 'false');
+              core.setOutput('run_next_workflow1', 'false');
               core.setFailed('A job is currently running, or the last completed workflow run failed.');
             } else {
-              core.setOutput('run_next_workflow', 'true');
+              core.setOutput('run_next_workflow1', 'true');
             }
       - name: Check Latest Workflow Run Status
         id: check-latest-run-2
@@ -121,13 +121,13 @@ jobs:
             const hasCompletedRunFailed = completedRuns.data.workflow_runs.length > 0 && completedRuns.data.workflow_runs[0].conclusion !== 'success';
             const hasRunningJobs = runningRuns.data.workflow_runs.length > 0;
             if(hasCompletedRunFailed || hasRunningJobs) {
-              core.setOutput('run_next_workflow', 'false');
+              core.setOutput('run_next_workflow2', 'false');
               core.setFailed('A job is currently running, or the last completed workflow run failed.');
             } else {
-              core.setOutput('run_next_workflow', 'true');
+              core.setOutput('run_next_workflow2', 'true');
             }           
       - name: Trigger the Workflow
-        if: always() && steps.check-latest-run-1.outputs.run_next_workflow == 'true' && steps.check-latest-run-2.outputs.run_next_workflow == 'true'
+        if: ${{ steps.check-latest-run-1.outputs.run_next_workflow1 == 'true' && steps.check-latest-run-2.outputs.run_next_workflow2 == 'true' }}
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
