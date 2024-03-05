@@ -74,7 +74,6 @@ jobs:
         script: |
           const ownerRepo = ${{ secrets.owner_repo }};
           const repoName = ${{ secrets.repo }};
-          
           async function checkWorkflowRunStatus(workflowId) {
             const completedRuns = await github.rest.actions.listWorkflowRuns({
               owner: ownerRepo,
