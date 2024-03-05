@@ -28,7 +28,7 @@ jobs:
       - name: Check new patch ReX forked by rufusin
         id: check-rex-rufusin
         if: steps.check-gh.outputs.internet_error == '0'
-        run: bash src/etc/ci.sh rufusin/revanced-patches latest youtube-ReX-rufusin.apk
+        run: bash ci.sh rufusin/revanced-patches latest youtube-ReX-rufusin.apk
       - name: Check new patch Revanced Extended
         id: check-rve
         if: steps.check-gh.outputs.internet_error == '0'
