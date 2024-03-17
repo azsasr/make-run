@@ -32,11 +32,11 @@ jobs:
       - name: Check new patch Twitter Piko Stable
         id: check-twitter-piko-stable
         if: steps.check-gh.outputs.internet_error == '0'
-        run: bash src/etc/ci.sh crimera/piko latest twitter-piko-stable.apk
+        run: bash ci.sh crimera/piko latest twitter-piko-stable.apk
       - name: Check new patch Twitter Piko Beta
         id: check-twitter-piko-beta
         if: steps.check-gh.outputs.internet_error == '0'
-        run: bash src/etc/ci.sh crimera/piko prerelease twitter-piko-beta.apk
+        run: bash ci.sh crimera/piko prerelease twitter-piko-beta.apk
       - name: Check new patch Revanced Extended
         id: check-rve
         if: steps.check-gh.outputs.internet_error == '0'
