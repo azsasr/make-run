@@ -25,14 +25,18 @@ jobs:
         id: check-rex
         if: steps.check-gh.outputs.internet_error == '0'
         run: bash ci.sh YT-Advanced/ReX-patches latest youtube-ReX.apk
-      - name: Check new patch ReX forked by anddea stable
-        id: check-rex-anddea-stable
+      - name: Check new patch Revanced Extended forked by Anddea Stable Version
+        id: check-rve-anddea-stable
         if: steps.check-gh.outputs.internet_error == '0'
-        run: bash ci.sh anddea/revanced-patches latest youtube-stable-ReX-anddea.apk
-      - name: Check new patch ReX forked by anddea beta
-        id: check-rex-anddea-beta
+        run: bash ci.sh anddea/revanced-patches latest youtube-stable-anddea.apk
+      - name: Check new patch Revanced Extended forked by Anddea Beta Version
+        id: check-rve-anddea-beta
         if: steps.check-gh.outputs.internet_error == '0'
-        run: bash ci.sh anddea/revanced-patches prerelease youtube-beta-ReX-anddea.apk
+        run: bash ci.sh anddea/revanced-patches prerelease youtube-beta-anddea.apk
+      - name: Check new patch Revanced Extended forked by Rufusin Stable Version
+        id: check-rve-rufusin
+        if: steps.check-gh.outputs.internet_error == '0'
+        run: bash ci.sh anddea/revanced-patches latest youtube-rufusin.apk
       - name: Check new patch Twitter Piko Stable
         id: check-twitter-piko-stable
         if: steps.check-gh.outputs.internet_error == '0'
@@ -67,8 +71,9 @@ jobs:
       check_rv: ${{ steps.check-rv.outputs.new_patch }}
       check_rv_beta: ${{ steps.check-rv-beta.outputs.new_patch }}
       check_rex: ${{ steps.check-rex.outputs.new_patch }}
-      check_rex_anddea_stable: ${{ steps.check-rex-anddea-stable.outputs.new_patch }}
-      check_rex_anddea_beta: ${{ steps.check-rex-anddea-beta.outputs.new_patch }}
+      check_rve_anddea_stable: ${{ steps.check-rve-anddea-stable.outputs.new_patch }}
+      check_rve_anddea_beta: ${{ steps.check-rve-anddea-beta.outputs.new_patch }}
+      check_rve_rufusin: ${{ steps.check-rve-rufusin.outputs.new_patch }}
       check_twitter_piko_stable: ${{ steps.check-twitter-piko-stable.outputs.new_patch }}
       check_twitter_piko_beta: ${{ steps.check-twitter-piko-beta.outputs.new_patch }}
       check_rve: ${{ steps.check-rve.outputs.new_patch }}
@@ -78,7 +83,7 @@ jobs:
   trigger:
     name: Trigger workflow
     needs: check
-    if: ${{ needs.check.outputs.check_rv == '1' || needs.check.outputs.check_rv_beta == '1' || needs.check.outputs.check_rex == '1' || needs.check.outputs.check_rex_rufusin == '1' || needs.check.outputs.check_rex_anddea_stable == '1' || needs.check.outputs.check_rex_anddea_beta == '1' || needs.check.outputs.check_rve == '1' ||  needs.check.outputs.check_twitter_piko_stable == '1' || needs.check.outputs.check_twitter_piko_beta == '1' || needs.check.outputs.check_rve67 == '1' || needs.check.outputs.check_rve5 == '1'}}
+    if: ${{ needs.check.outputs.check_rv == '1' || needs.check.outputs.check_rv_beta == '1' || needs.check.outputs.check_rex == '1' || needs.check.outputs.check_rex_rufusin == '1' || needs.check.outputs.check_rve_anddea_stable == '1' || needs.check.outputs.check_rve_anddea_beta == '1' || needs.check.outputs.check_rve_rufusin == '1' || needs.check.outputs.check_rve == '1' ||  needs.check.outputs.check_twitter_piko_stable == '1' || needs.check.outputs.check_twitter_piko_beta == '1' || needs.check.outputs.check_rve67 == '1' || needs.check.outputs.check_rve5 == '1'}}
     runs-on: ubuntu-latest
     steps:
       - name: Check Latest Workflow Run Status
