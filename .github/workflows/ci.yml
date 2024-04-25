@@ -36,7 +36,7 @@ jobs:
       - name: Check new patch Revanced Extended forked by Rufusin Stable Version
         id: check-rve-rufusin
         if: steps.check-gh.outputs.internet_error == '0'
-        run: bash ci.sh anddea/revanced-patches latest youtube-rufusin.apk
+        run: bash ci.sh rufusin/revanced-patches latest youtube-rufusin.apk
       - name: Check new patch Twitter Piko Stable
         id: check-twitter-piko-stable
         if: steps.check-gh.outputs.internet_error == '0'
