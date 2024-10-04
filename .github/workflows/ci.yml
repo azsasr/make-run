@@ -48,7 +48,7 @@ jobs:
       - name: Check new patch Revanced Extended Reddit
         id: check-rve-reddit
         if: steps.check-gh.outputs.internet_error == '0'
-        run: bash ci.sh inotia00/revanced-patches-reddit latest reddit-revanced-extended.apk
+        run: bash ci.sh inotia00/revanced-patches-arsclib latest reddit-revanced-extended.apk
       - name: Check new patch Revanced For Android 6 & 7
         id: check-rve67
         if: steps.check-gh.outputs.internet_error == '0'
