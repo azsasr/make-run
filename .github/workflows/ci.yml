@@ -61,9 +61,6 @@ jobs:
         id: check-Revanced-Experiments
         if: steps.check-gh.outputs.internet_error == '0'
         run: bash ci.sh Aunali321/ReVancedExperiments latest telegram-revanced-experiments.apk 
-      - name: Keep workflow run
-        if: steps.check-gh.outputs.internet_error == '0'
-        uses: gautamkrishnar/keepalive-workflow@v1
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2
         with:
