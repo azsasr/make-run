@@ -57,10 +57,6 @@ jobs:
         id: check-BiliRoamingM
         if: steps.check-gh.outputs.internet_error == '0'
         run: bash ci.sh sakarie9/BiliRoamingM latest bilibili-BiliRoamingM.apk
-      - name: Check new patch Revanced Experiments
-        id: check-Revanced-Experiments
-        if: steps.check-gh.outputs.internet_error == '0'
-        run: bash ci.sh Aunali321/ReVancedExperiments latest telegram-revanced-experiments.apk 
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2
         with:
