@@ -74,7 +74,7 @@ jobs:
           keep_minimum_runs: 100
     outputs:
       check_rv: ${{ steps.check-rv.outputs.new_patch }}
-      check_rv_beta: ${{ steps.check-rv-beta.outputs.new_patch }}
+#      check_rv_beta: ${{ steps.check-rv-beta.outputs.new_patch }}
       check_morphe: ${{ steps.check-morphe.outputs.new_patch }}
       check_morphe_beta: ${{ steps.check-morphe-beta.outputs.new_patch }}
       check_rve_anddea_stable: ${{ steps.check-rve-anddea-stable.outputs.new_patch }}
