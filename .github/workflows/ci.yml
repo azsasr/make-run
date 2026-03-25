@@ -76,7 +76,7 @@ jobs:
   trigger:
     name: Trigger workflow
     needs: check
-    if: ${{ needs.check.outputs.check_rve_anddea_stable == '1' || needs.check.outputs.check_rve_anddea_beta == '1' || needs.check.outputs.check_twitter_piko_stable == '1' || needs.check.outputs.check_twitter_piko_beta == '1' needs.check.outputs.check_morphe == '1' || needs.check.outputs.check_morphe_beta == '1'}}
+    if: ${{ needs.check.outputs.check_rve_anddea_stable == '1' || needs.check.outputs.check_rve_anddea_beta == '1' || needs.check.outputs.check_twitter_piko_stable == '1' || needs.check.outputs.check_twitter_piko_beta == '1' || needs.check.outputs.check_morphe == '1' || needs.check.outputs.check_morphe_beta == '1'}}
     runs-on: ubuntu-latest
     steps:
       - name: Check Latest Workflow Run Status
